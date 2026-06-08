@@ -184,14 +184,14 @@ top_accounts = top10.index.tolist()
 a6 = closed[closed["account"].isin(top_accounts)].copy()
 a6["is_win"] = a6["closed_pnl"] > 0
 
-pivot = a6.groupby(["account", "classification"])["is_win"].mean().unstack(fill_value=0)
-pivot = pivot.reindex(columns=sentiment_order, fill_value=0)
+pivot = a6.groupby(["account", "classification"])["is_win"].mean().unstack()
+pivot = pivot.reindex(columns=sentiment_order)
 
 print(pivot.to_string(float_format=lambda x: f"{x:.2%}"))
 
 fig, ax = plt.subplots(figsize=(10, max(6, len(top_accounts) * 0.5 + 2)))
-sns.heatmap(pivot, annot=True, fmt=".0%", cmap="RdYlGn", cbar_kws={"label": "Win Rate"},
-            linewidths=0.5, ax=ax, vmin=0, vmax=1)
+sns.heatmap(pivot, annot=True, fmt=".0%", cmap="RdYlGn", mask=pivot.isnull(),
+            cbar_kws={"label": "Win Rate"}, linewidths=0.5, ax=ax, vmin=0, vmax=1)
 ax.set_title("Win Rate by Trader and Sentiment")
 ax.set_xlabel("Sentiment")
 ax.set_ylabel("Account")
