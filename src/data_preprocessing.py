@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
 
 print("=" * 60)
 print("  Bitcoin Sentiment vs Trader Performance")
@@ -9,8 +12,8 @@ print("=" * 60)
 # ---------------------------------------------------------------------------
 # 1. Load raw data
 # ---------------------------------------------------------------------------
-fear_greed = pd.read_csv("data/fear_greed_index.csv")
-historical = pd.read_csv("data/historical_data.csv")
+fear_greed = pd.read_csv(ROOT / "data" / "fear_greed_index.csv")
+historical = pd.read_csv(ROOT / "data" / "historical_data.csv")
 
 print(f"\n[1] Raw shapes:")
 print(f"    fear_greed_index.csv  -> {fear_greed.shape}")
@@ -60,8 +63,8 @@ print(f"    Merged shape                : {merged.shape}")
 # ---------------------------------------------------------------------------
 # 7. Save
 # ---------------------------------------------------------------------------
-merged.to_csv("data/merged_data.csv", index=False)
-print(f"\n[3] Saved → data/merged_data.csv")
+merged.to_csv(ROOT / "data" / "merged_data.csv", index=False)
+print(f"\n[3] Saved → {ROOT / 'data' / 'merged_data.csv'}")
 
 # ---------------------------------------------------------------------------
 # 8. Preview

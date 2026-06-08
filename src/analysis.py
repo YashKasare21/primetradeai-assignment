@@ -3,13 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
+from pathlib import Path
 warnings.filterwarnings("ignore")
 
 sns.set_theme(style="whitegrid")
 plt.rcParams["figure.figsize"] = (10, 5)
 
-ROOT = "/home/yash/Desktop/Projects/primetrade-ai"
-df = pd.read_csv(f"{ROOT}/data/merged_data.csv")
+ROOT = Path(__file__).resolve().parent.parent
+(ROOT / "outputs" / "charts").mkdir(parents=True, exist_ok=True)
+
+df = pd.read_csv(ROOT / "data" / "merged_data.csv")
 
 sentiment_order = ["Extreme Fear", "Fear", "Neutral", "Greed", "Extreme Greed"]
 
@@ -55,7 +58,7 @@ ax.set_ylabel("Closed PnL")
 ax.set_title("Mean and Median PnL by Market Sentiment")
 ax.legend()
 plt.tight_layout()
-plt.savefig(f"{ROOT}/outputs/charts/pnl_by_sentiment.png", dpi=150)
+plt.savefig(ROOT / "outputs" / "charts" / "pnl_by_sentiment.png", dpi=150)
 plt.close()
 
 # ===========================================================================
@@ -84,7 +87,7 @@ ax.set_xlabel("Sentiment")
 ax.set_title("Long / Short Ratio by Market Sentiment")
 ax.legend()
 plt.tight_layout()
-plt.savefig(f"{ROOT}/outputs/charts/long_short_ratio_by_sentiment.png", dpi=150)
+plt.savefig(ROOT / "outputs" / "charts" / "long_short_ratio_by_sentiment.png", dpi=150)
 plt.close()
 
 # ===========================================================================
@@ -105,7 +108,7 @@ ax.set_title("Average Trade Size by Market Sentiment")
 for i, v in enumerate(a3.values):
     ax.text(i, v, f"${v:,.0f}", ha="center", va="bottom", fontsize=9)
 plt.tight_layout()
-plt.savefig(f"{ROOT}/outputs/charts/trade_size_by_sentiment.png", dpi=150)
+plt.savefig(ROOT / "outputs" / "charts" / "trade_size_by_sentiment.png", dpi=150)
 plt.close()
 
 # ===========================================================================
@@ -140,7 +143,7 @@ ax1.set_xlabel("Year-Month")
 ax1.set_title("Monthly Total PnL vs Average Fear/Greed Score")
 fig.legend(loc="upper left", bbox_to_anchor=(0.12, 0.88))
 plt.tight_layout()
-plt.savefig(f"{ROOT}/outputs/charts/monthly_pnl_vs_fg_score.png", dpi=150)
+plt.savefig(ROOT / "outputs" / "charts" / "monthly_pnl_vs_fg_score.png", dpi=150)
 plt.close()
 
 # ===========================================================================
@@ -170,7 +173,7 @@ for i, (bar, idx) in enumerate(zip(bars, top10.index)):
     ax.text(bar.get_width(), bar.get_y() + bar.get_height() / 2,
             f"  Win: {wr:.1%}", va="center", fontsize=8)
 plt.tight_layout()
-plt.savefig(f"{ROOT}/outputs/charts/top_10_traders_pnl.png", dpi=150)
+plt.savefig(ROOT / "outputs" / "charts" / "top_10_traders_pnl.png", dpi=150)
 plt.close()
 
 # ===========================================================================
@@ -197,7 +200,7 @@ ax.set_xlabel("Sentiment")
 ax.set_ylabel("Account")
 plt.yticks(rotation=0)
 plt.tight_layout()
-plt.savefig(f"{ROOT}/outputs/charts/top_traders_winrate_heatmap.png", dpi=150)
+plt.savefig(ROOT / "outputs" / "charts" / "top_traders_winrate_heatmap.png", dpi=150)
 plt.close()
 
 print("\nAll 6 analyses complete. Charts saved to outputs/charts/")
